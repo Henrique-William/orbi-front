@@ -1,65 +1,87 @@
-import Image from "next/image";
+import Link from "next/link";
 
 export default function Home() {
   return (
-    <div className="flex min-h-screen items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex min-h-screen w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.tsx file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
+      <div className="flex h-screen items-center justify-center bg-[#f8f8f8] font-['Poppins']">
+        <div className="flex w-[90%] max-w-[900px] flex-col overflow-hidden rounded-[20px] bg-white shadow-[0_0_20px_rgba(0,0,0,0.1)] md:flex-row md:h-[600px]">
+
+          {/* Lado Esquerdo (Azul) */}
+          <div className="flex flex-1 items-center justify-center bg-[#450693] p-6 text-center">
+            <div className="text-white">
+              {/* Imagem do Logo */}
+              <div className="mb-2 inline-block w-[180px] overflow-hidden rounded-full md:w-[180px]">
+                <img src="/orbi.svg" alt="Logo Orbi" className="w-full" />
+              </div>
+            </div>
+          </div>
+
+          {/* Lado Direito (Conteúdo) */}
+          <div className="relative flex flex-[1.2] flex-col p-6 pb-20 md:pb-6">
+            <div className="w-full">
+              <h2 className="mb-4 text-center text-2xl font-bold text-black">Início</h2>
+
+              {/* Campo Destino */}
+              <div className="mb-3">
+                <input
+                    type="text"
+                    placeholder="Para onde?"
+                    className="w-full rounded-lg border border-[#ccc] p-3 text-sm outline-none focus:border-[#450693]"
+                />
+              </div>
+
+              {/* Localização Atual */}
+              <div className="mb-3 flex items-center gap-2 text-sm text-gray-700">
+                <img src="https://cdn-icons-png.flaticon.com/512/684/684908.png" alt="Loc" className="w-[22px] opacity-80" />
+                <span>Sua localização atual</span>
+              </div>
+
+              {/*/!* Sugestões *!/*/}
+              {/*<div className="mb-4">*/}
+              {/*  <p className="mb-2 font-bold text-gray-800">Sugestões:</p>*/}
+
+              {/*  <div className="mb-1 flex cursor-pointer items-center gap-3 rounded-lg bg-[#f1f1f1] p-2.5 transition hover:bg-[#e2e2e2]">*/}
+              {/*    <img src="https://cdn-icons-png.flaticon.com/512/854/854878.png" alt="Trabalho" className="w-[22px]" />*/}
+              {/*    <span className="text-sm text-black">Trabalho</span>*/}
+              {/*  </div>*/}
+
+              {/*  <div className="mb-1 flex cursor-pointer items-center gap-3 rounded-lg bg-[#f1f1f1] p-2.5 transition hover:bg-[#e2e2e2]">*/}
+              {/*    <img src="https://cdn-icons-png.flaticon.com/512/854/854892.png" alt="Casa" className="w-[22px]" />*/}
+              {/*    <span className="text-sm text-black">Casa</span>*/}
+              {/*  </div>*/}
+
+              {/*  <div className="flex cursor-pointer items-center gap-3 rounded-lg bg-[#f1f1f1] p-2.5 transition hover:bg-[#e2e2e2]">*/}
+              {/*    <img src="https://cdn-icons-png.flaticon.com/512/927/927567.png" alt="Salvo" className="w-[22px]" />*/}
+              {/*    <span className="text-sm text-black">Local salvo</span>*/}
+              {/*  </div>*/}
+              {/*</div>*/}
+
+              {/* Mapa */}
+              <div className="h-[200px] w-full overflow-hidden rounded-lg border border-[#ccc]">
+                <img src="/maps.webp" alt="Mapa" className="h-full w-full object-cover" />
+              </div>
+            </div>
+
+            {/* Menu Inferior */}
+            <div className="absolute bottom-4 left-1/2 flex w-[90%] -translate-x-1/2 justify-between rounded-[14px] bg-white px-6 py-3 shadow-[0px_0px_12px_rgba(0,0,0,0.15)]">
+              <div className="flex cursor-pointer flex-col items-center opacity-100">
+                <img src="https://cdn-icons-png.flaticon.com/512/1946/1946488.png" alt="Início" className="mb-1 w-[26px]" />
+                <span className="text-xs font-medium text-black">Início</span>
+              </div>
+
+              <div className="flex cursor-pointer flex-col items-center opacity-60 hover:opacity-100 transition-opacity">
+                <img src="https://cdn-icons-png.flaticon.com/512/1946/1946400.png" alt="Viagens" className="mb-1 w-[26px]" />
+                <span className="text-xs font-medium text-black">Viagens</span>
+              </div>
+
+              {/* Link para login (como exemplo de Perfil) */}
+              <Link href="/login" className="flex cursor-pointer flex-col items-center opacity-60 hover:opacity-100 transition-opacity">
+                <img src="https://cdn-icons-png.flaticon.com/512/456/456212.png" alt="Perfil" className="mb-1 w-[26px]" />
+                <span className="text-xs font-medium text-black">Perfil</span>
+              </Link>
+            </div>
+
+          </div>
         </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
-        </div>
-      </main>
-    </div>
+      </div>
   );
 }
