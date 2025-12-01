@@ -1,6 +1,43 @@
+"use client"; // Necessário para usar hooks e event handlers
+
 import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
 
 export default function Login() {
+    const router = useRouter();
+    const [error, setError] = useState("");
+
+    async function handleLogin(event: React.FormEvent<HTMLFormElement>) {
+        event.preventDefault();
+        setError("");
+
+        const formData = new FormData(event.currentTarget);
+        // Convertemos o FormData num objeto simples para enviar como JSON
+        const data = Object.fromEntries(formData.entries());
+
+        try {
+            const response = await fetch("http://localhost:8080/api/auth/login", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                credentials: "include", // Permite receber o cookie do backend
+                body: JSON.stringify(data),
+            });
+
+            if (!response.ok) {
+                throw new Error("Falha no login");
+            }
+
+            // Sucesso: Redireciona para a Home
+            router.push("/");
+        } catch (err) {
+            console.error(err);
+            setError("Email ou senha inválidos.");
+        }
+    }
+
     return (
         <div className="flex h-screen items-center justify-center bg-[#f8f8f8] font-['Poppins']">
             <div className="flex w-[90%] max-w-[900px] h-auto min-h-[520px] flex-col overflow-hidden rounded-[20px] bg-white shadow-[0_0_20px_rgba(0,0,0,0.1)] md:flex-row">
@@ -19,10 +56,13 @@ export default function Login() {
                     <div className="w-full max-w-[320px]">
                         <h2 className="mb-5 text-center text-2xl font-bold text-black">LOGIN</h2>
 
-                        <form>
+                        {error && <p className="mb-4 text-center text-xs text-red-500">{error}</p>}
+
+                        <form onSubmit={handleLogin}>
                             <label className="mb-1 block text-sm text-[#333]">Login</label>
                             <input
                                 type="email"
+                                name="email" // Adicionado name
                                 placeholder="@email.com"
                                 className="mb-4 w-full rounded-md border border-[#ccc] p-2.5 text-sm text-black outline-none focus:border-[#450693]"
                                 required
@@ -31,6 +71,7 @@ export default function Login() {
                             <label className="mb-1 block text-sm text-[#333]">Password</label>
                             <input
                                 type="password"
+                                name="password" // Adicionado name
                                 placeholder="password"
                                 className="mb-4 w-full rounded-md border border-[#ccc] p-2.5 text-sm text-black outline-none focus:border-[#450693]"
                                 required
@@ -53,15 +94,6 @@ export default function Login() {
                             <p className="mt-4 text-center text-sm text-black">
                                 Não tem uma conta? <Link href="/register" className="text-[#450693] font-medium hover:underline">Inscrever-se</Link>
                             </p>
-
-                            <div className="mt-6 text-center">
-                                <p className="mb-2 text-sm text-black">Logar com</p>
-                                <div className="flex justify-center gap-4">
-                                    <i className="fab fa-facebook-f cursor-pointer text-xl text-[#333] transition hover:text-[#450693]"></i>
-                                    <i className="fab fa-google cursor-pointer text-xl text-[#333] transition hover:text-[#450693]"></i>
-                                    <i className="fab fa-apple cursor-pointer text-xl text-[#333] transition hover:text-[#450693]"></i>
-                                </div>
-                            </div>
                         </form>
                     </div>
                 </div>
