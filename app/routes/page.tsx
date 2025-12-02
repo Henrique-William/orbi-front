@@ -23,8 +23,6 @@ interface RouteResponseDto {
 
 const BASE_URL = 'http://localhost:8080';
 
-// REMOVEMOS A FUNÇÃO getTokenFromCookie() POIS O COOKIE É HttpOnly E INACESSÍVEL AO JS.
-
 export default function RoutesPage() {
     const [routes, setRoutes] = useState<RouteResponseDto[]>([]);
     const [loading, setLoading] = useState(true);
@@ -97,26 +95,34 @@ export default function RoutesPage() {
                 ) : (
                     <div className="space-y-4">
                         {routes.map((route) => (
-                            <div key={route.id} className="bg-white p-4 rounded-xl shadow-lg border border-gray-100">
-                                <div className="flex justify-between items-center">
-                                    <h2 className="text-xl font-semibold text-[#450693]">Rota #{route.id}</h2>
-                                    <span className="text-sm font-medium px-3 py-1 rounded-full bg-yellow-100 text-yellow-800">
-                                        {route.deliveries.filter(d => d.status === 'DELIVERED').length} / {route.deliveries.length} Entregues
-                                    </span>
+                            // Envolvemos o card com o Link para a página de detalhes dinâmica
+                            <Link href={`/routes/${route.id}`} key={route.id} className="block group">
+                                <div className="bg-white p-4 rounded-xl shadow-lg border border-gray-100 group-hover:border-[#450693] transition-all cursor-pointer">
+                                    <div className="flex justify-between items-center">
+                                        <h2 className="text-xl font-semibold text-[#450693] group-hover:text-[#6a1cb3]">Rota #{route.id}</h2>
+                                        <span className="text-sm font-medium px-3 py-1 rounded-full bg-yellow-100 text-yellow-800">
+                                            {route.deliveries.filter(d => d.status === 'DELIVERED').length} / {route.deliveries.length} Entregues
+                                        </span>
+                                    </div>
+                                    <p className="text-sm text-gray-600 mt-1">Motorista: {route.driverName ?? 'Não atribuído'}</p>
+                                    <div className="mt-3 space-y-2">
+                                        <h3 className="text-md font-medium text-gray-700">Próximas Paradas:</h3>
+                                        <ul className="list-disc list-inside ml-4 space-y-1 text-sm text-gray-600">
+                                            {/* Exibe apenas as 2 primeiras paradas como prévia */}
+                                            {route.deliveries.slice(0, 2).map((delivery, index) => (
+                                                <li key={delivery.id} className="truncate">
+                                                    {index + 1}. {delivery.dropoffAddress} ({delivery.status})
+                                                </li>
+                                            ))}
+                                            {route.deliveries.length > 2 && (
+                                                <li className="text-[#450693] font-medium text-xs pt-1 list-none">
+                                                    + {route.deliveries.length - 2} outras paradas (clique para ver detalhes)
+                                                </li>
+                                            )}
+                                        </ul>
+                                    </div>
                                 </div>
-                                <p className="text-sm text-gray-600 mt-1">Motorista: {route.driverName ?? 'No Driver'}</p>
-                                <div className="mt-3 space-y-2">
-                                    <h3 className="text-md font-medium text-gray-700">Paradas:</h3>
-                                    <ul className="list-disc list-inside ml-4 space-y-1 text-sm text-gray-600">
-                                        {route.deliveries.slice(0, 3).map((delivery, index) => (
-                                            <li key={delivery.id} className="truncate">
-                                                {index + 1}. {delivery.dropoffAddress} ({delivery.status})
-                                            </li>
-                                        ))}
-                                        {route.deliveries.length > 3 && <li>... mais {route.deliveries.length - 3} paradas.</li>}
-                                    </ul>
-                                </div>
-                            </div>
+                            </Link>
                         ))}
                     </div>
                 )}
